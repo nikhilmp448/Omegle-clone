@@ -145,6 +145,8 @@ async def websocket_endpoint(websocket: WebSocket, chat_type: str):
                 {"type": "system", "message": "You've been connected to a stranger!"},
                 partner_id
             )
+            # Designate initiator to start WebRTC and avoid glare
+            await manager.send_personal_message({"type": "webrtc-init"}, connection_id)
         else:
             await manager.send_personal_message(
                 {"type": "system", "message": "Waiting for someone to connect..."},
@@ -208,6 +210,8 @@ async def websocket_endpoint(websocket: WebSocket, chat_type: str):
                         {"type": "system", "message": "You've been connected to a stranger!"},
                         new_partner_id
                     )
+                    # Designate initiator for the new match
+                    await manager.send_personal_message({"type": "webrtc-init"}, connection_id)
                 else:
                     await manager.send_personal_message(
                         {"type": "system", "message": "Waiting for someone to connect..."},

@@ -88,21 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (data.message.includes('connected to a stranger') || data.message.includes('connected to a new stranger')) {
                     connected = true;
                     remoteStatus.textContent = 'Connected to stranger';
-                    
-                    // Create peer connection when matched
-                    createPeerConnection();
-                    
-                    // Create and send offer
-                    const offer = await peerConnection.createOffer();
-                    await peerConnection.setLocalDescription(offer);
-                    
-                    socket.send(JSON.stringify({
-                        type: 'video-signal',
-                        signal: {
-                            type: 'offer',
-                            sdp: peerConnection.localDescription
-                        }
-                    }));
+                    // Offer will be created only when 'webrtc-init' is received to avoid glare
                 }
                 
                 // If our partner disconnected
@@ -129,6 +115,24 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (data.type === 'typing') {
                 // Show or hide typing indicator based on stranger's typing status
                 typingIndicator.style.display = data.isTyping ? 'block' : 'none';
+            } else if (data.type === 'webrtc-init') {
+                // We are the designated offerer; start negotiation
+                if (!peerConnection) {
+                    createPeerConnection();
+                }
+                try {
+                    const offer = await peerConnection.createOffer();
+                    await peerConnection.setLocalDescription(offer);
+                    socket.send(JSON.stringify({
+                        type: 'video-signal',
+                        signal: {
+                            type: 'offer',
+                            sdp: peerConnection.localDescription
+                        }
+                    }));
+                } catch (e) {
+                    console.error('Error creating offer:', e);
+                }
             } else if (data.type === 'online') {
                 // Update users online indicator
                 if (usersOnlineEl) {
