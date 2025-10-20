@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Chat - Random Chat App</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+</head>
+<body>
+    <div class="video-chat-container">
+        <!-- Left side - Video area -->
+        <div class="video-section">
+            <div class="video-container">
+                <!-- Users online indicator -->
+                <div class="status-overlay" id="users-online" style="top: 10px; right: 10px; left: auto;">Users online: 0</div>
+                
+                <div class="video-wrapper main-video">
+                    <video id="remote-video" autoplay playsinline></video>
+                    <div class="status-overlay" id="remote-status">Waiting for someone to connect...</div>
+                    
+                    <!-- PIP local video -->
+                    <div class="pip-video-wrapper">
+                        <video id="local-video" autoplay playsinline muted></video>
+                        <div class="status-overlay" id="local-status">Your video</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="video-controls">
+                <button id="toggle-video" class="control-btn enabled">
+                    <span class="icon">📹</span>
+                </button>
+                <button id="toggle-audio" class="control-btn enabled">
+                    <span class="icon">🎤</span>
+                </button>
+                <button id="next-chat" class="control-btn">
+                    <span class="icon">⏭️</span> Next
+                </button>
+            </div>
+            
+            <div class="interest-section">
+                <input type="text" id="interests" placeholder="Enter interests (comma separated)">
+                <button id="update-interests">Update Interests</button>
+            </div>
+        </div>
+        
+        <!-- Right side - Text chat area -->
+        <div class="chat-section">
+            <div class="chat-messages" id="chat-messages">
+                <div class="system-message">Welcome to Random Video Chat!</div>
+                <div class="typing-indicator" id="typing-indicator">Stranger is typing</div>
+            </div>
+            
+            <div class="chat-input">
+                <input type="text" id="message-input" placeholder="Type a message...">
+                <button id="send-message">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', path='/js/video_chat.js') }}"></script>
+</body>
+</html>

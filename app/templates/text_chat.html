@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Chat - Random Chat App</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+</head>
+<body>
+    <div class="text-chat-container">
+        <header>
+            <h1>Text Chat</h1>
+            <div class="status-indicator" id="connection-status">Disconnected</div>
+        </header>
+        
+        <div class="chat-content">
+            <div class="chat-messages" id="chat-messages">
+                <div class="system-message">Welcome to Random Text Chat!</div>
+            </div>
+            
+            <div class="chat-input">
+                <input type="text" id="message-input" placeholder="Type a message...">
+                <button id="send-message">Send</button>
+            </div>
+        </div>
+        
+        <div class="chat-controls">
+            <div class="interest-section">
+                <input type="text" id="interests" placeholder="Enter interests (comma separated)">
+                <button id="update-interests">Update Interests</button>
+            </div>
+            <button id="next-chat" class="control-btn">Find New Chat</button>
+            <button id="back-home" class="control-btn">Back to Home</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', path='/js/text_chat.js') }}"></script>
+</body>
+</html>

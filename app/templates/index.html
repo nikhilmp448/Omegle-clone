@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect with Amazing People</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Background elements -->
+    <div class="bg-animation">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <header class="main-header">
+            <!-- <div class="logo-section">
+                <div class="logo">
+                    <i class="fas fa-comments"></i>
+                    <span>TrAE</span>
+                </div>
+            </div> -->
+            <h1>Connect with Amazing People</h1>
+            <p>Discover new friendships through meaningful conversations</p>
+            <!-- <div class="header-stats">
+                <div class="stat">
+                    <span class="stat-number">10K+</span>
+                    <span class="stat-label">Active Users</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Countries</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Available</span>
+                </div>
+            </div> -->
+        </header>
+        
+        <div class="chat-options">
+            <div class="option-card video-card">
+                <div class="card-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <h2>Video Chat</h2>
+                <p>Face-to-face conversations with people from around the world</p>
+                <div class="features">
+                    <span class="feature"><i class="fas fa-eye"></i> Visual Connection</span>
+                    <span class="feature"><i class="fas fa-globe"></i> Global Reach</span>
+                    <span class="feature"><i class="fas fa-shield-alt"></i> Safe & Secure</span>
+                </div>
+                <div class="interest-input">
+                    <label for="video-interests">
+                        <i class="fas fa-tags"></i>
+                        What are your interests?
+                    </label>
+                    <input type="text" id="video-interests" placeholder="music, gaming, travel, cooking, sports...">
+                </div>
+                <button id="start-video-chat" class="cta-button video-btn">
+                    <i class="fas fa-play"></i>
+                    Start Video Chat
+                </button>
+            </div>
+            
+            <div class="option-card text-card">
+                <div class="card-icon">
+                    <i class="fas fa-comment-dots"></i>
+                </div>
+                <h2>Text Chat</h2>
+                <p>Quick and easy text conversations for instant connections</p>
+                <div class="features">
+                    <span class="feature"><i class="fas fa-bolt"></i> Fast & Light</span>
+                    <span class="feature"><i class="fas fa-user-friends"></i> Anonymous</span>
+                    <span class="feature"><i class="fas fa-mobile-alt"></i> Mobile Friendly</span>
+                </div>
+                <div class="interest-input">
+                    <label for="text-interests">
+                        <i class="fas fa-tags"></i>
+                        What are your interests?
+                    </label>
+                    <input type="text" id="text-interests" placeholder="art, books, technology, movies, fitness...">
+                </div>
+                <button id="start-text-chat" class="cta-button text-btn">
+                    <i class="fas fa-paper-plane"></i>
+                    Start Text Chat
+                </button>
+            </div>
+        </div>
+        
+        <!-- <div class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Choose Your Chat Type</h3>
+                    <p>Select video or text chat based on your preference</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Add Your Interests</h3>
+                    <p>Help us match you with like-minded people</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Start Chatting</h3>
+                    <p>Connect instantly with someone new and interesting</p>
+                </div>
+            </div>
+        </div> -->
+        
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Stranger Chat</h4>
+                    <p>Connecting people worldwide through meaningful conversations</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Safety First</h4>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Moderated Chats</li>
+                        <li><i class="fas fa-check"></i> Report System</li>
+                        <li><i class="fas fa-check"></i> Privacy Protected</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="footer-bottom">
+                <p>© 2024 TrAE. Made with <i class="fas fa-heart"></i> for connecting people</p>
+            </div> -->
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', path='/js/home.js') }}"></script>
+</body>
+</html>
