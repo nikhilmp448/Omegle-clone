@@ -24,12 +24,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedInterests = sessionStorage.getItem('chatInterests') || '';
     interestsInput.value = savedInterests;
     
-    // WebRTC configuration
+    // WebRTC configuration with TURN servers for production
     const configuration = {
         iceServers: [
             { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:stun1.l.google.com:19302' }
-        ]
+            { urls: 'stun:stun1.l.google.com:19302' },
+            { urls: 'stun:stun2.l.google.com:19302' },
+            // Free TURN servers for production deployment
+            {
+                urls: 'turn:openrelay.metered.ca:80',
+                username: 'openrelayproject',
+                credential: 'openrelayproject'
+            },
+            {
+                urls: 'turn:openrelay.metered.ca:443',
+                username: 'openrelayproject',
+                credential: 'openrelayproject'
+            },
+            {
+                urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+                username: 'openrelayproject',
+                credential: 'openrelayproject'
+            }
+        ],
+        iceCandidatePoolSize: 10
     };
     
     // Initialize media stream and WebSocket connection
@@ -170,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Handle ICE candidates
         peerConnection.onicecandidate = (event) => {
             if (event.candidate) {
+                console.log('Sending ICE candidate:', event.candidate.type, event.candidate.candidate);
                 socket.send(JSON.stringify({
                     type: 'video-signal',
                     signal: {
@@ -177,6 +196,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         candidate: event.candidate
                     }
                 }));
+            } else {
+                console.log('ICE gathering complete');
             }
         };
         
@@ -201,8 +222,16 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Handle connection state changes
         peerConnection.onconnectionstatechange = () => {
-            if (peerConnection.connectionState === 'disconnected' || 
+            console.log('Connection state changed:', peerConnection.connectionState);
+            console.log('ICE connection state:', peerConnection.iceConnectionState);
+            console.log('ICE gathering state:', peerConnection.iceGatheringState);
+            
+            if (peerConnection.connectionState === 'connected') {
+                console.log('WebRTC connection established successfully');
+                remoteStatus.textContent = 'Connected to stranger';
+            } else if (peerConnection.connectionState === 'disconnected' || 
                 peerConnection.connectionState === 'failed') {
+                console.log('WebRTC connection failed or disconnected');
                 remoteStatus.textContent = 'Connection lost';
                 remoteVideo.srcObject = null;
             }
@@ -220,15 +249,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle incoming WebRTC signals
     async function handleVideoSignal(signal) {
         try {
+            console.log('Received video signal:', signal.type);
+            
             if (!peerConnection) {
+                console.log('Creating peer connection for incoming signal');
                 createPeerConnection();
             }
             
             if (signal.type === 'offer') {
+                console.log('Processing offer from remote peer');
                 await peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp));
+                console.log('Remote description set successfully');
+                
                 const answer = await peerConnection.createAnswer();
+                console.log('Created answer, setting local description');
                 await peerConnection.setLocalDescription(answer);
                 
+                console.log('Sending answer to remote peer');
                 socket.send(JSON.stringify({
                     type: 'video-signal',
                     signal: {
@@ -237,9 +274,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }));
             } else if (signal.type === 'answer') {
+                console.log('Processing answer from remote peer');
                 await peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp));
+                console.log('Remote description set successfully for answer');
             } else if (signal.type === 'ice-candidate') {
+                console.log('Processing ICE candidate:', signal.candidate.type, signal.candidate.candidate);
                 await peerConnection.addIceCandidate(new RTCIceCandidate(signal.candidate));
+                console.log('ICE candidate added successfully');
             }
         } catch (error) {
             console.error('Error handling video signal:', error);
@@ -248,7 +289,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Helper to determine WebSocket protocol (ws or wss)
     function getWebSocketProtocol() {
-        return window.location.protocol === 'https:' ? 'wss' : 'ws';
+        const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+        console.log('Using WebSocket protocol:', protocol, 'for location:', window.location.protocol);
+        return protocol;
     }
     
     // Add a message to the chat
